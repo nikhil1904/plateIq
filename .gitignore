@@ -1,0 +1,25 @@
+*.py[cod]
+
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+.idea
+.vscode
+.sublime-*
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+node_modules
+__pycache__
+db.sqlite3
+media/
+invoice/migrations
