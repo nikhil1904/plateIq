@@ -1,17 +1,21 @@
-from django.http import Http404
 from django.shortcuts import render
 from rest_framework import status, viewsets
-from rest_framework.exceptions import ParseError
-from rest_framework.parsers import FileUploadParser
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from .serializers import InvoiceSerializer, InvoiceSummarySerializer
-from .models import Invoice, InvoiceSummary
+from .models import Invoice, InvoiceSummary, User
 # Create your views here.
 
 
 class InvoiceViews(viewsets.ModelViewSet):
     serializer_class = InvoiceSerializer
-    queryset = Invoice.objects.all()
+
+    def get_queryset(self):
+        return Invoice.objects.filter(created_by=self.request.user)
+    model = Invoice
     lookup_field = 'id'
+
+
+class InvoiceSummaryViews(viewsets.ModelViewSet):
+    serializer_class = InvoiceSummarySerializer
+    queryset = InvoiceSummary.objects.all()
+
 

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 from .validators import validate_file_extension
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -25,6 +26,10 @@ class BaseModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     # when the entry was modified.
     modified = models.DateTimeField(auto_now=True)
+    # which user created the entry.
+    created_by = models.ForeignKey(User, related_name='%(app_label)s_%(class)s_created', null=True, blank=True, on_delete=models.CASCADE)
+    # which user updated the entry.
+    updated_by = models.ForeignKey(User, related_name='%(app_label)s_%(class)s_updated', null=True, blank=True, on_delete=models.CASCADE)
     # is deleted is to keep the information of soft delete.
     is_deleted = models.BooleanField(default=False)
     objects = IsDeletedManager()
@@ -68,7 +73,7 @@ class InvoiceSummary(BaseModel):
     tax = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True)
     total = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True)
     amount_due = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True)
-    items = JSONField(default=dict)
+    items = JSONField(default=dict, null=True)
 
     def __str__(self):
         return str(self.id)
