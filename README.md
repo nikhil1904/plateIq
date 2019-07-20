@@ -4,7 +4,7 @@
 * Django rest framework --version = 2.2
 
 ## Install Dependencies
-1- Create Virtual Environment for python3
+1- Create Virtual Environment for python3 'python3 -m venv plateiq-env'
 
 2- Activate the virtual env created
 
@@ -25,6 +25,7 @@
 * get invoice summary of invoice `http://127.0.0.1:8000/invoice/get-invoice-summary/?id=1`
 
 * update the status of invoice `http://127.0.0.1:8000/invoice/digitized-state-update/`
+sample input = {"id":1, "state": 1}
 
 ## Assumptions
 1- No authentications. As in any customer can access other's invoice. written the logic in comment for showing only 
