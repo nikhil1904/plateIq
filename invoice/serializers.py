@@ -13,6 +13,7 @@ class InvoiceSummarySerializer(serializers.ModelSerializer):
         model = InvoiceSummary
         fields = "__all__"
 
+
 class InvoiceStateSerializer(serializers.ModelSerializer):
     class Meta:
         model = InvoiceState

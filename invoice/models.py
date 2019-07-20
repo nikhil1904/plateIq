@@ -39,25 +39,12 @@ class BaseModel(models.Model):
 
 
 class Invoice(BaseModel):
-    Pending = 0
-    Digitized = 1
-    Declined = 2
-
-    STATE_CHOICES = ((Pending, 'Pending'),
-                     (Digitized, 'Digitized'),
-                     (Declined, 'Declined'))
 
     invoice_file = models.FileField(blank=False, null=False, validators=[validate_file_extension])
     name = models.CharField(max_length=32, null=True, blank=True)
     comment = models.CharField(max_length=256, null=True, blank=True)
-    state = models.IntegerField(choices=STATE_CHOICES, default=0)
 
     def save(self, *args, **kwargs):
-        # We can define a User group who can actually change the status and validate below.
-        # Right now assuming internal user as Superuser
-        # if not self.updated_by is User.objects.get(is_superuser=True):
-        #     self.state = Invoice.Pending
-        # InvoiceState.objects.get_or_create(invoice=self)
         if not self.name:
             self.name = self.invoice_file.name
         super(Invoice, self).save(*args, **kwargs)
@@ -76,6 +63,9 @@ class InvoiceState(BaseModel):
                      (Declined, 'Declined'))
     invoice = models.OneToOneField(Invoice, on_delete=models.CASCADE, null=True)
     state = models.IntegerField(choices=STATE_CHOICES, default=0)
+
+    def __str__(self):
+        return str(self.invoice)
 
 
 class InvoiceSummary(BaseModel):

@@ -16,6 +16,7 @@ def get_invoice_summary_obj_by_invoice(invoice_id):
     except InvoiceSummary.DoesNotExist:
         return None
 
+
 def get_invoice_state_obj_by_invoice(invoice_id):
     try:
         return InvoiceState.objects.get(invoice__id=invoice_id)
